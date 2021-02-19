@@ -27,7 +27,12 @@
       "launchBrowser": true,
       "launchUrl": "values",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_USER": "sa",
+        "DB_NAME": "Prueba",
+        "DB_PORT": "22000",
+        "DB_PASS": "Firefox12345678",
+        "DB_HOST": "localhost"
       },
       "applicationUrl": "http://localhost:5000"
     }
