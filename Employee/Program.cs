@@ -37,8 +37,10 @@ namespace Empleado
         static void Main(string[] args)
         {
             var Program = new Program();
-
-            int opcion = 0;
+            int valor = 0;
+            bool estado;
+            string valorIngresado;
+            bool esNumero;
 
             Console.WriteLine("Consumiendo api rest\r");
             Console.WriteLine("------------------------\n");
@@ -47,27 +49,52 @@ namespace Empleado
             Console.WriteLine("2.-Registrar empleado\r");
             Console.WriteLine("------------------------\n");
 
-            Console.WriteLine("Ingresa una opción, y presiona Enter");
-            opcion = Convert.ToInt32(Console.ReadLine());
+            try
+            {
 
-            switch (opcion)
+                do
+                {
+                    do
+                    {
+                        Console.WriteLine("Ingresa una opción válida, y presiona Enter");
+                        valorIngresado = Console.ReadLine();
+                        esNumero = int.TryParse(valorIngresado, out valor);
+                    }
+                    while (!esNumero);
+
+                    if (valor == 1 || valor == 2)
+                        estado = false;
+                    else
+                        estado = true;
+
+                } while (estado);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocurrió un error: " + ex);
+            }
+
+
+            switch (valor)
             {
                 case 1:
 
                     try
                     {
                         Task<String> tarea = Task.Run(async () => await Program.ObtenerDatosDummy(Program.UrlDummy));
-                        tarea.Wait();
-
                         var jsonResult = tarea.Result;
 
 
                         var data = JsonConvert.DeserializeObject<Listado<Employee>>(jsonResult);
 
+                        Console.WriteLine("Id\t" + "Nombre\t\t\t\t\t" + "Salario\t\t\t" + "Edad\t\t\t" + "Ruta Imagen\n");
+                        Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
                         foreach (Employee employee in data.Data)
                         {
-                            Console.WriteLine(employee.Id + "   " + employee.Employee_name + "   " + employee.Employee_salary + "   " + employee.Employee_age + "   " + employee.Profile_image);
+                            Console.WriteLine(employee.Id + "\t" + employee.Employee_name + "\t\t\t\t" + employee.Employee_salary + "\t\t\t" + employee.Employee_age + "\t\t" + employee.Profile_image);
                         }
+                        Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
                     }
                     catch (Exception ex)
                     {
