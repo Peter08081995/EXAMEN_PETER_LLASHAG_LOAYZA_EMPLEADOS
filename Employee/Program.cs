@@ -20,6 +20,9 @@ namespace Empleado
 
         private string _resultado = string.Empty;
 
+        public Employee employee { get; set; }
+
+
         public string Resultado
         {
             get { return _resultado; }
@@ -32,15 +35,18 @@ namespace Empleado
             Timeout = new TimeSpan(0, 0, 30);
             UrlDummy = "http://dummy.restapiexample.com/api/v1/employees";
             UrlEmployee = "http://localhost:8086/employee";
+            employee = new Employee();
         }
 
         static void Main(string[] args)
         {
             var Program = new Program();
-            int valor = 0;
-            bool estado;
-            string valorIngresado;
-            bool esNumero;
+            int valor = 0, valor2 = 0, valor3 = 0;
+            bool estado, esTextoNombre = true;
+            string valorIngresado, valorSalario, valorEdad;
+            bool esNumero, esNumeroSalario, esNumeroEdad;
+
+            string nombre = string.Empty, rutaImagen = string.Empty;
 
             Console.WriteLine("Consumiendo api rest\r");
             Console.WriteLine("------------------------\n");
@@ -56,11 +62,48 @@ namespace Empleado
                 {
                     do
                     {
-                        Console.WriteLine("Ingresa una opción válida, y presiona Enter");
+                        Console.WriteLine("Ingrese una opción válida, y presiona Enter");
                         valorIngresado = Console.ReadLine();
                         esNumero = int.TryParse(valorIngresado, out valor);
                     }
                     while (!esNumero);
+
+                    if (valor == 2)
+                    {
+
+                        do
+                        {
+                            Console.WriteLine("Ingrese nombre del Empleado válido");
+                            nombre = Console.ReadLine();
+                            if (Program.IsLetters(nombre))
+                            {
+                                esTextoNombre = false;
+                            }
+                        } while (esTextoNombre);
+
+                        do
+                        {
+                            Console.WriteLine("Ingrese salario del Empleado válido");
+                            valorSalario = Console.ReadLine();
+                            esNumeroSalario = int.TryParse(valorSalario, out valor2);
+                        } while (!esNumeroSalario);
+
+                        do
+                        {
+                            Console.WriteLine("Ingrese edad del Empleado válido");
+                            valorEdad = Console.ReadLine();
+                            esNumeroEdad = int.TryParse(valorEdad, out valor3);
+                        } while (!esNumeroEdad);
+
+                        Console.WriteLine("Ingresé ruta imagen del Empleado válido");
+                        rutaImagen = Console.ReadLine();
+
+                        Program.employee.Employee_name = nombre;
+                        Program.employee.Employee_age = int.Parse(valorEdad);
+                        Program.employee.Employee_salary = int.Parse(valorSalario);
+                        Program.employee.Profile_image = rutaImagen;
+
+                    }
 
                     if (valor == 1 || valor == 2)
                         estado = false;
@@ -75,7 +118,6 @@ namespace Empleado
                 Console.WriteLine("Ocurrió un error: " + ex);
             }
 
-
             switch (valor)
             {
                 case 1:
@@ -85,16 +127,9 @@ namespace Empleado
                         Task<String> tarea = Task.Run(async () => await Program.ObtenerDatosDummy(Program.UrlDummy));
                         var jsonResult = tarea.Result;
 
-
-                        var data = JsonConvert.DeserializeObject<Listado<Employee>>(jsonResult);
-                        Console.WriteLine("\n-----------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine("Id\t" + "Nombre\t\t\t\t\t" + "Salario\t\t\t" + "Edad\t\t\t" + "Ruta Imagen");
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
-                        foreach (Employee employee in data.Data)
-                        {
-                            Console.WriteLine(employee.Id + "\t" + employee.Employee_name + "\t\t\t\t" + employee.Employee_salary + "\t\t\t" + employee.Employee_age + "\t\t" + employee.Profile_image);
-                        }
-                        Console.WriteLine("\n-----------------------------------------------------------------------------------------------------------\n");
+                        Console.WriteLine(tarea.Result.ToString() + "\n");
+                        Console.WriteLine("\n-----------------------------------------------------------------------------------------------------------");
                     }
                     catch (Exception ex)
                     {
@@ -107,8 +142,10 @@ namespace Empleado
 
                     try
                     {
-                        Task<String> tarea2 = Task.Run(async () => await Program.GuardarEmployee(null, Program.UrlEmployee));
-                        Console.WriteLine(tarea2.Result.ToString());
+                        Task<String> tarea2 = Task.Run(async () => await Program.GuardarEmployee(Program.employee, Program.UrlEmployee));
+                        Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
+                        Console.WriteLine(tarea2.Result.ToString() + "\n");
+                        Console.WriteLine("-----------------------------------------------------------------------------------------------------------");
                     }
                     catch (Exception ex)
                     {
@@ -121,6 +158,18 @@ namespace Empleado
 
             Console.Write("Presiona la tecla close para salir de la aplicación de consola...");
             Console.ReadKey();
+        }
+
+        private bool IsLetters(string caracteres)
+        {
+            foreach (char ch in caracteres)
+            {
+                if (!Char.IsLetter(ch) && ch != 32)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private async Task<String> ObtenerDatosDummy(string url)
@@ -142,12 +191,6 @@ namespace Empleado
 
         private async Task<String> GuardarEmployee(Employee employee, string url)
         {
-            employee = new Employee();
-
-            employee.Employee_age = 28;
-            employee.Employee_name = "Peter";
-            employee.Employee_salary = 3000;
-            employee.Profile_image = "";
 
             Stream receiveStream = new MemoryStream();
             HttpClient cliente = new HttpClient();

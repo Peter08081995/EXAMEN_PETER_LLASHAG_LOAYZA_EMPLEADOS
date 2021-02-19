@@ -1,7 +1,6 @@
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\bin\Debug\netstandard2.0\SX.ERP.Entidad.deps.json
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\bin\Debug\netstandard2.0\SX.ERP.Entidad.dll
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\bin\Debug\netstandard2.0\SX.ERP.Entidad.pdb
-C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\obj\Debug\netstandard2.0\SX.ERP.Entidad.csprojAssemblyReference.cache
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\obj\Debug\netstandard2.0\SX.ERP.Entidad.AssemblyInfoInputs.cache
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\obj\Debug\netstandard2.0\SX.ERP.Entidad.AssemblyInfo.cs
 C:\CODE\.NET CORE\Servicio\ApiRest_Empleados\SX.ERP.Entidad\obj\Debug\netstandard2.0\SX.ERP.Entidad.csproj.CoreCompileInputs.cache
