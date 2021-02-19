@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SX.ERP.Datos\SX.ERP.Datos.csproj" />
+    <ProjectReference Include="..\SX.ERP.Entidad\SX.ERP.Entidad.csproj" />
+  </ItemGroup>
+
+
+</Project>
