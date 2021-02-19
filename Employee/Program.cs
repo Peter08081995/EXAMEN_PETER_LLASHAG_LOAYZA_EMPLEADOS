@@ -87,14 +87,14 @@ namespace Empleado
 
 
                         var data = JsonConvert.DeserializeObject<Listado<Employee>>(jsonResult);
-
-                        Console.WriteLine("Id\t" + "Nombre\t\t\t\t\t" + "Salario\t\t\t" + "Edad\t\t\t" + "Ruta Imagen\n");
+                        Console.WriteLine("\n-----------------------------------------------------------------------------------------------------------");
+                        Console.WriteLine("Id\t" + "Nombre\t\t\t\t\t" + "Salario\t\t\t" + "Edad\t\t\t" + "Ruta Imagen");
                         Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
                         foreach (Employee employee in data.Data)
                         {
                             Console.WriteLine(employee.Id + "\t" + employee.Employee_name + "\t\t\t\t" + employee.Employee_salary + "\t\t\t" + employee.Employee_age + "\t\t" + employee.Profile_image);
                         }
-                        Console.WriteLine("-----------------------------------------------------------------------------------------------------------\n");
+                        Console.WriteLine("\n-----------------------------------------------------------------------------------------------------------\n");
                     }
                     catch (Exception ex)
                     {
